@@ -11,10 +11,10 @@ const Header = () => {
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
               <Nav.Link href='/cart'>
-                <i class='fa-light fa-cart-shopping'></i>Cart
+                <i class='fa-solid fa-cart-shopping'></i> Cart
               </Nav.Link>
               <Nav.Link href='/login'>
-                <i class='fa-regular fa-user'></i>Sign in
+                <i class='fa-regular fa-user'></i> Sign in
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
