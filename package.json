@@ -1,0 +1,22 @@
+{
+  "name": "dreamshop",
+  "version": "1.0.0",
+  "description": "DreamShop app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dariusz-Wolontariusz/DreamStore-frontend.git"
+  },
+  "author": "Dariusz Ciazynski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dariusz-Wolontariusz/DreamStore-frontend/issues"
+  },
+  "homepage": "https://github.com/Dariusz-Wolontariusz/DreamStore-frontend#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
