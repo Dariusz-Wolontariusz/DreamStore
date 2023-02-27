@@ -1,10 +1,15 @@
 import mongoose from 'mongoose'
 
-const reviewsSchema = mongoose.Schema({
-  name: { type: String, required: true },
-  rating: { type: String, required: true },
-  comment: { type: String, required: true },
-})
+const reviewsSchema = mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    rating: { type: String, required: true },
+    comment: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+  }
+)
 
 const userSchema = mongoose.Schema(
   {
