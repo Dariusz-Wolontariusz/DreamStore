@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import Rating from './Rating'
+import Rating from './Rating.js'
 
 const Product = ({ product }) => {
   return (
