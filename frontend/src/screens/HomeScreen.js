@@ -11,7 +11,7 @@ const HomeScreen = () => {
 
   const productList = useSelector((state) => state.productList)
   // console.log('productList in HomeScreen:', productList.product)
-  const { loading, error, product } = productList
+  const { loading, error, products } = productList
 
   useEffect(() => {
     dispatch(listProducts())
@@ -27,8 +27,8 @@ const HomeScreen = () => {
       ) : (
         <Row>
           {/* {console.log(products)} */}
-          {product &&
-            product.map((product) => (
+          {products &&
+            products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                 <Product product={product} />
               </Col>
