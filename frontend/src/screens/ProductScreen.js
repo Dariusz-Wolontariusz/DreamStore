@@ -31,7 +31,7 @@ const ProductScreen = ({ match, history }) => {
   //   fetchProduct()
   // }, [match])
 
-  const [qty, setQty] = useState(0)
+  const [qty, setQty] = useState(1)
 
   const dispatch = useDispatch()
 
