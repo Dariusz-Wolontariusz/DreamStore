@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Col,
   Row,
@@ -7,6 +7,7 @@ import {
   Card,
   Button,
   ListGroupItem,
+  FormControl,
 } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -15,7 +16,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Rating from '../components/Rating'
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = ({ match, history }) => {
   // const product = products.find((p) => p._id === match.params.id) // pierwsza wersja
   // druga wersja gdzie fetch bezposrednio sie sciagalo dane z serwera, nie przez redux
   // const [product, setProduct] = useState({})
@@ -30,14 +31,20 @@ const ProductScreen = ({ match }) => {
   //   fetchProduct()
   // }, [match])
 
+  const [qty, setQty] = useState(0)
+
   const dispatch = useDispatch()
+
+  const productDetails = useSelector((state) => state.productDetails)
+  const { loading, error, product } = productDetails
 
   useEffect(() => {
     dispatch(listProductDetails(match.params.id))
   }, [dispatch, match])
 
-  const productDetails = useSelector((state) => state.productDetails)
-  const { loading, error, product } = productDetails
+  const addToCartHandler = () => {
+    history.push(`/cart/${match.params.id}?qty=${qty}`)
+  }
 
   return (
     <>
@@ -87,11 +94,32 @@ const ProductScreen = ({ match }) => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+                {product.countInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Qty:</Col>
+                      <Col>
+                        <FormControl
+                          as='select'
+                          value={qty}
+                          onChange={(e) => setQty(e.target.value)}
+                        >
+                          {[...Array(product.countInStock).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </FormControl>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
                 <ListGroup.Item>
                   <Button
                     className='btn-block'
                     type='button'
                     disabled={product.countInStock === 0}
+                    onClick={addToCartHandler}
                   >
                     Add to cart
                   </Button>
