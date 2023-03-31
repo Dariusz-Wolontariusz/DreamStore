@@ -1,5 +1,8 @@
 import express from 'express'
-import { getProducts, getProductById } from '../controllers/productController'
+import {
+  getProducts,
+  getProductById,
+} from '../controllers/productController.js'
 const router = express.Router()
 
 // previous routes made to functions in controllers
