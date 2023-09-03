@@ -10,13 +10,13 @@ import {
   FormControl,
 } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import { listProductDetails } from '../actions/productActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Rating from '../components/Rating'
 
-const ProductScreen = ({ match, history }) => {
+const ProductScreen = () => {
   // const product = products.find((p) => p._id === match.params.id) // pierwsza wersja
   // druga wersja gdzie fetch bezposrednio sie sciagalo dane z serwera, nie przez redux
   // const [product, setProduct] = useState({})
@@ -35,15 +35,20 @@ const ProductScreen = ({ match, history }) => {
 
   const dispatch = useDispatch()
 
+  const params = useParams()
+
+  const navigate = useNavigate()
+
   const productDetails = useSelector((state) => state.productDetails)
   const { loading, error, product } = productDetails
 
   useEffect(() => {
-    dispatch(listProductDetails(match.params.id))
-  }, [dispatch, match])
+    dispatch(listProductDetails(params.id))
+    // console.log('this is my match id:', params.id);
+  }, [dispatch, params.id])
 
   const addToCartHandler = () => {
-    history.push(`/cart/${match.params.id}?qty=${qty}`)
+    navigate(`/cart/${params.id}?qty=${qty}`)
   }
 
   return (

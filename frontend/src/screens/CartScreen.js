@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
-import { Link } from 'react-router-dom'
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom'
 import { addToCart, removeFromCart } from '../actions/cartActions'
 import {
   Col,
@@ -14,8 +14,12 @@ import {
   FormControl,
 } from 'react-bootstrap'
 
-const Cart = ({ match, location, history }) => {
-  const productId = match.params.id
+const Cart = () => {
+  const productId = useParams()
+
+  const navigate = useNavigate()
+
+  const location = useLocation();
 
   const qty = location.search ? Number(location.search.split('=')[1]) : 1
 
@@ -25,9 +29,10 @@ const Cart = ({ match, location, history }) => {
   const { cartItems } = cart
 
   useEffect(() => {
-    if (productId) {
-      dispatch(addToCart(productId, qty))
+    if (productId.id) {
+      dispatch(addToCart(productId.id, qty))
     }
+    // console.log('This are my new params:', productId);
   }, [dispatch, productId, qty])
 
   const removeFromCartHandler = (id) => {
@@ -35,7 +40,7 @@ const Cart = ({ match, location, history }) => {
   }
 
   const checkoutHandler = () => {
-    history.push('/login?redirect=shipping')
+    navigate('/login?redirect=shipping')
   }
 
   return (
