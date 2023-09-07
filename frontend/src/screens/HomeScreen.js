@@ -9,6 +9,7 @@ import Message from '../components/Message.js'
 const HomeScreen = () => {
   const dispatch = useDispatch()
 
+  //enters state in store and later on destructures data from productList
   const productList = useSelector((state) => state.productList)
   // console.log('productList in HomeScreen:', productList.product)
   const { loading, error, products } = productList

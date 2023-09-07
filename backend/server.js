@@ -7,9 +7,9 @@ import userRoutes from './routes/userRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 
 // sugestia chat gtp
-import { fileURLToPath } from 'url';
-import path from 'path';
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// import { fileURLToPath } from 'url'
+// import path from 'path'
+// const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 dotenv.config()
 
@@ -34,10 +34,12 @@ app.use('/api/users', userRoutes)
 
 // custom error handler
 
-if(process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname,'../frontend/build')))
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/build')))
 
-  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html')))
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  )
 } else {
   app.get('/', (req, res) => {
     res.send('API is running...')

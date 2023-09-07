@@ -17,8 +17,10 @@ import Message from '../components/Message'
 import Rating from '../components/Rating'
 
 const ProductScreen = () => {
-  // const product = products.find((p) => p._id === match.params.id) // pierwsza wersja
-  // druga wersja gdzie fetch bezposrednio sie sciagalo dane z serwera, nie przez redux
+  // version 1
+  // const product = products.find((p) => p._id === match.params.id)
+
+  // version 2 where the data was fetched by Fetch directly form a server, not by redux
   // const [product, setProduct] = useState({})
 
   // useEffect(() => {
@@ -76,7 +78,7 @@ const ProductScreen = () => {
                   text={`${product.numReviews} reviews`}
                 />
               </ListGroup.Item>
-              <ListGroup.Item>Price: £{product.price} </ListGroup.Item>
+              <ListGroup.Item>Price: £ {product.price} </ListGroup.Item>
               <ListGroup.Item>{product.description}</ListGroup.Item>
             </ListGroup>
           </Col>
@@ -87,7 +89,7 @@ const ProductScreen = () => {
                   <Row>
                     <Col>Price:</Col>
                     <Col>
-                      <strong>£{product.price}</strong>
+                      <strong>£ {product.price}</strong>
                     </Col>
                   </Row>
                 </ListGroup.Item>

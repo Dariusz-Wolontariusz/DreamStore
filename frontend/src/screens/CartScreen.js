@@ -19,7 +19,7 @@ const Cart = () => {
 
   const navigate = useNavigate()
 
-  const location = useLocation();
+  const location = useLocation()
 
   const qty = location.search ? Number(location.search.split('=')[1]) : 1
 
@@ -52,7 +52,7 @@ const Cart = () => {
             Your cart is empty <Link to='/'> Go back</Link>
           </Message>
         ) : (
-          <ListGroupItem variant='flush'></ListGroupItem>
+          <ListGroupItem variant='flush'>Nie wiem po co to jest?</ListGroupItem>
         )}
       </Col>
       <ListGroup>

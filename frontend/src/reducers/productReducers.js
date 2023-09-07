@@ -10,7 +10,7 @@ import {
 export const productListReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case PRODUCT_LIST_REQUEST:
-      return { loading: true, products: [] }
+      return { loading: true, ...state }
     case PRODUCT_LIST_SUCCESS:
       // console.log('logging the payload', action.payload)
       return { loading: false, products: action.payload }
