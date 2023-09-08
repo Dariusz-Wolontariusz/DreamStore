@@ -1,3 +1,5 @@
+//old token generator - moved to usersController
+
 import jwt from 'jsonwebtoken'
 
 //generates token used in authorisation

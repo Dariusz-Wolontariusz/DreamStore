@@ -17,7 +17,9 @@ connectDB()
 
 const app = express()
 
+// Body parser middleware
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 // moved down before deplopyment
 // app.get('/', (req, res) => {
