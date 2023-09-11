@@ -18,7 +18,7 @@ const authUser = asyncHandler(async (req, res) => {
 
     generateToken(res, user._id)
 
-    res.json({
+    res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -87,20 +87,19 @@ const logoutUser = asyncHandler(async (req, res) => {
 // @access Private
 
 const getUserProfile = asyncHandler(async (req, res) => {
-  res.send('get user profile')
+  const user = await User.findById(req.user._id)
 
-  // const user = await User.findById(req.user._id)
-  // if (user) {
-  //   res.send({
-  //     _id: user._id,
-  //     name: user.name,
-  //     email: user.email,
-  //     isAdmin: user.isAdmin,
-  //   })
-  // } else {
-  //   res.send(401)
-  //   throw new Error('User not found')
-  // }
+  if (user) {
+    res.status(200).json({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    })
+  } else {
+    res.status(404)
+    throw new Error('User not found.')
+  }
 })
 
 // @desc update user profile
@@ -108,7 +107,32 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @access Private
 
 const updateUserProfile = asyncHandler(async (req, res) => {
-  res.send('update user profile')
+  // const { name, email, password } = req.user
+
+  const user = await User.findById(req.user._id)
+
+  if (user) {
+    {
+      user.name = req.user.name || user.name
+      user.email = req.user.email || user.email
+
+      if (req.user.password) {
+        user.password = req.body.password
+      }
+    }
+
+    const updatedUser = await user.save()
+
+    res.status(200).json({
+      _id: updateUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      admin: updateUser.isAdmin,
+    })
+  } else {
+    res.status(404)
+    throw new Error('User not found.')
+  }
 })
 
 // @desc Get all the users

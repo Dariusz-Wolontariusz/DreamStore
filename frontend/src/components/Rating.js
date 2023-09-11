@@ -1,75 +1,60 @@
-import React from 'react'
+import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa'
 
-const Rating = ({ text, value, color }) => {
+const Rating = ({ value, text, color }) => {
   return (
-    <>
+    <div className='rating'>
       <span>
-        <i
-          style={{ color }}
-          className={
-            value >= 1
-              ? 'fa-solid fa-star'
-              : value >= 0.5
-              ? 'fa-solid fa-star-half-stroke'
-              : 'fa-regular fa-star'
-          }
-        ></i>
+        {value >= 1 ? (
+          <FaStar />
+        ) : value >= 0.5 ? (
+          <FaStarHalfAlt />
+        ) : (
+          <FaRegStar />
+        )}
       </span>
       <span>
-        <i
-          style={{ color }}
-          className={
-            value >= 2
-              ? 'fa-solid fa-star'
-              : value >= 1.5
-              ? 'fa-solid fa-star-half-stroke'
-              : 'fa-regular fa-star'
-          }
-        ></i>
+        {value >= 2 ? (
+          <FaStar />
+        ) : value >= 1.5 ? (
+          <FaStarHalfAlt />
+        ) : (
+          <FaRegStar />
+        )}
       </span>
       <span>
-        <i
-          style={{ color }}
-          className={
-            value >= 3
-              ? 'fa-solid fa-star'
-              : value >= 2.5
-              ? 'fa-solid fa-star-half-stroke'
-              : 'fa-regular fa-star'
-          }
-        ></i>
+        {value >= 3 ? (
+          <FaStar />
+        ) : value >= 2.5 ? (
+          <FaStarHalfAlt />
+        ) : (
+          <FaRegStar />
+        )}
       </span>
       <span>
-        <i
-          style={{ color }}
-          className={
-            value >= 4
-              ? 'fa-solid fa-star'
-              : value >= 3.5
-              ? 'fa-solid fa-star-half-stroke'
-              : 'fa-regular fa-star'
-          }
-        ></i>
+        {value >= 4 ? (
+          <FaStar />
+        ) : value >= 3.5 ? (
+          <FaStarHalfAlt />
+        ) : (
+          <FaRegStar />
+        )}
       </span>
       <span>
-        <i
-          style={{ color }}
-          className={
-            value >= 5
-              ? 'fa-solid fa-star'
-              : value >= 4.5
-              ? 'fa-solid fa-star-half-stroke'
-              : 'fa-regular fa-star'
-          }
-        ></i>
+        {value >= 5 ? (
+          <FaStar />
+        ) : value >= 4.5 ? (
+          <FaStarHalfAlt />
+        ) : (
+          <FaRegStar />
+        )}
       </span>
-      <span>{text && text}</span>
-    </>
+      <span className='rating-text'>{text && text}</span>
+    </div>
   )
 }
 
 Rating.defaultProps = {
-  color: '#fa8128',
+  color: '#f8e825',
 }
 
 export default Rating

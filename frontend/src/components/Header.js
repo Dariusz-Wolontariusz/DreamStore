@@ -1,6 +1,7 @@
 import React from 'react'
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
+import { FaShoppingCart, FaUser } from 'react-icons/fa'
 // import { Link } from 'react-router-dom'
 
 const Header = () => {
@@ -16,12 +17,12 @@ const Header = () => {
             <Nav className='ms-auto'>
               <LinkContainer to='/cart'>
                 <Nav.Link>
-                  <i className='fa-solid fa-cart-shopping'></i> Cart
+                  <FaShoppingCart /> Cart
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer to='/login'>
                 <Nav.Link>
-                  <i className='fa-regular fa-user'></i> Sign in
+                  <FaUser /> Sign in
                 </Nav.Link>
               </LinkContainer>
             </Nav>
