@@ -5,6 +5,7 @@ import colors from 'colors'
 import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
+import cookieParser from 'cookie-parser'
 
 // sugestia chat gtp
 // import { fileURLToPath } from 'url'
@@ -17,9 +18,12 @@ connectDB()
 
 const app = express()
 
-// Body parser middleware
+// body parser middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+//cookie parser middleware
+app.use(cookieParser())
 
 // moved down before deplopyment
 // app.get('/', (req, res) => {

@@ -1,6 +1,6 @@
 import User from '../models/userModel.js'
-import jwt from 'jsonwebtoken'
 import asyncHandler from 'express-async-handler'
+import generateToken from '../utils/generateToken.js'
 
 // @desc Auth user & get token
 // @route POST /api/users/login
@@ -11,23 +11,12 @@ const authUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email: email })
 
-  //password validation function is in userModel.js
+  // password validation function is in userModel.js
 
   if (user && (await user.matchPassword(password))) {
-    //Generation of a token
+    // generates token and saves it to httpOnly cookie
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '30d',
-    })
-
-    //Set JWT to HTTP-only cookie
-
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV !== 'developement',
-      secure: 'strict',
-      maxAge: 30 * 24 * 60 * 60 * 1000, //30 days
-    })
+    generateToken(res, user._id)
 
     res.json({
       _id: user._id,
@@ -49,7 +38,7 @@ const authUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body
 
-  const userExists = await User.findOne({ email: email })
+  const userExists = await User.findOne({ email })
 
   if (userExists) {
     res.status(400)
@@ -63,12 +52,15 @@ const registerUser = asyncHandler(async (req, res) => {
   })
 
   if (user) {
-    res.status(201).json({
+    // generates token and saves it to httpOnly cookie
+
+    generateToken(res, user._id)
+
+    res.send(201).json({
       _id: user._id,
       name: user.name,
-      email: user.email,
+      password: user.password,
       isAdmin: user.isAdmin,
-      token: generateToken(user._id),
     })
   } else {
     res.status(400)
@@ -81,7 +73,13 @@ const registerUser = asyncHandler(async (req, res) => {
 // @access Private
 
 const logoutUser = asyncHandler(async (req, res) => {
-  res.send('logout user')
+  // clear cookies
+
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date(0),
+  })
+  res.status(200).json({ message: 'Logged out successfully' })
 })
 
 // @desc GET user profile
