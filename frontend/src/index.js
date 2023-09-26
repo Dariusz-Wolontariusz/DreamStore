@@ -25,6 +25,8 @@ const router = createBrowserRouter(
   )
 )
 
+// the whole app wrapped in a provider from Redux to distribute store
+
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Provider store={store}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   Col,
   Row,
@@ -6,66 +6,58 @@ import {
   ListGroup,
   Card,
   Button,
-  // ListGroupItem,
   FormControl,
 } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
+// import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { listProductDetails } from '../actions/productActions'
+// import { listProductDetails } from '../actions/productActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Rating from '../components/Rating'
+import { useGetProductDetailsQuery } from '../slices/productsApiSlice'
 
 const ProductScreen = () => {
-  // version 1
-  // const product = products.find((p) => p._id === match.params.id)
-
-  // version 2 where the data was fetched by Fetch directly form a server, not by redux
-  // const [product, setProduct] = useState({})
-
-  // useEffect(() => {
-  //   const fetchProduct = async () => {
-  //     const { data } = await axios.get(`/api/products/${match.params.id}`)
-
-  //     setProduct(data)
-  //   }
-
-  //   fetchProduct()
-  // }, [match])
-
   const [qty, setQty] = useState(1)
 
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
-  const params = useParams()
+  const { id: productId } = useParams()
 
   const navigate = useNavigate()
 
-  const productDetails = useSelector((state) => state.productDetails)
-  const { loading, error, product } = productDetails
+  // const productDetails = useSelector((state) => state.productDetails)
+  // const { loading, error, product } = productDetails
 
-  useEffect(() => {
-    dispatch(listProductDetails(params.id))
-    // console.log('this is my match id:', params.id);
-  }, [dispatch, params.id])
+  // useEffect(() => {
+  //   dispatch(listProductDetails(params.id))
+  //   // console.log('this is my match id:', params.id);
+  // }, [dispatch, params.id])
 
   const addToCartHandler = () => {
-    navigate(`/cart/${params.id}?qty=${qty}`)
+    navigate(`/cart/${productId}?qty=${qty}`)
   }
+
+  const {
+    data: product,
+    isLoading,
+    error,
+  } = useGetProductDetailsQuery(productId)
 
   return (
     <>
       <Link className='btn btn-dark py-3' to='/'>
         Go back
       </Link>
-      {loading ? (
+      {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant='danger'>
+          {error?.data?.message || error.error}
+        </Message>
       ) : (
         <Row>
           <Col md={6}>
-            <Image src={product.image} alt={product.name} fluid />
+            <Image rounded src={product.image} alt={product.name} fluid />
           </Col>
           <Col md={3}>
             <ListGroup>

@@ -1,7 +1,7 @@
 {
   "name": "dreamshop",
   "version": "1.0.0",
-  "description": "DreamShop app",
+  "description": "My eCommerce project built with MERN",
   "main": "server.js",
   "type": "module",
   "scripts": {

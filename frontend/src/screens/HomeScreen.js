@@ -1,30 +1,21 @@
-import React, { useEffect } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
-import { listProducts } from '../actions/productActions.js'
 import Product from '../components/Product.js'
 import Loader from '../components/Loader.js'
 import Message from '../components/Message.js'
+import { useGetProductsQuery } from '../slices/productsApiSlice.js'
 
 const HomeScreen = () => {
-  const dispatch = useDispatch()
-
-  //enters state in store and later on destructures data from productList
-  const productList = useSelector((state) => state.productList)
-  // console.log('productList in HomeScreen:', productList.product)
-  const { loading, error, products } = productList
-
-  useEffect(() => {
-    dispatch(listProducts())
-  }, [dispatch])
+  const { data: products, isLoading, error } = useGetProductsQuery()
 
   return (
     <>
       <h1>All your dreams in one place</h1>
-      {loading ? (
+      {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant='danger'>
+          {error?.data?.message || error.error}
+        </Message>
       ) : (
         <Row>
           {/* {console.log(products)} */}

@@ -1,5 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
+dotenv.config()
 import connectDB from './config/db.js'
 import colors from 'colors'
 import productRoutes from './routes/productRoutes.js'
@@ -11,8 +12,6 @@ import cookieParser from 'cookie-parser'
 // import { fileURLToPath } from 'url'
 // import path from 'path'
 // const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-dotenv.config()
 
 connectDB()
 
@@ -52,8 +51,9 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-app.use(notFound)
+// error middleware
 
+app.use(notFound)
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 5000
