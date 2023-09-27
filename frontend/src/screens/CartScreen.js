@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Message from '../components/Message'
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom'
-import { addToCart, removeFromCart } from '../actions/cartActions'
+import Message from '../components/Message'
 import {
   Col,
   Row,
@@ -13,6 +12,7 @@ import {
   ListGroupItem,
   FormControl,
 } from 'react-bootstrap'
+import { addToCart } from '../slices/cartSlice'
 
 const Cart = () => {
   const productId = useParams()
@@ -28,16 +28,16 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart)
   const { cartItems } = cart
 
-  useEffect(() => {
-    if (productId.id) {
-      dispatch(addToCart(productId.id, qty))
-    }
-    // console.log('This are my new params:', productId);
-  }, [dispatch, productId, qty])
+  // useEffect(() => {
+  //   if (productId.id) {
+  //     dispatch(addToCart(productId.id, qty))
+  //   }
+  //   // console.log('This are my new params:', productId);
+  // }, [dispatch, productId, qty])
 
-  const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id))
-  }
+  // const removeFromCartHandler = (id) => {
+  //   dispatch(removeFromCart(id))
+  // }
 
   const checkoutHandler = () => {
     navigate('/login?redirect=shipping')
@@ -65,7 +65,7 @@ const Cart = () => {
               <Col md={3}>
                 <Link to={`/product/${item.product}`}>{item.name}</Link>
               </Col>
-              <Col md={2}>$ {item.price}</Col>
+              <Col md={2}>€ {item.price}</Col>
               <Col md={2}>
                 <FormControl
                   as='select'
@@ -85,7 +85,7 @@ const Cart = () => {
                 <Button
                   type='button'
                   variant='light'
-                  onClick={() => removeFromCartHandler(item.product)}
+                  // onClick={() => removeFromCartHandler(item.product)}
                 >
                   <i className='fas fa-trash'></i>
                 </Button>

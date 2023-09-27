@@ -8,40 +8,32 @@ import {
   Button,
   FormControl,
 } from 'react-bootstrap'
-// import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-// import { listProductDetails } from '../actions/productActions'
+import { useDispatch } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Rating from '../components/Rating'
 import { useGetProductDetailsQuery } from '../slices/productsApiSlice'
+import { addToCart } from '../slices/cartSlice'
 
 const ProductScreen = () => {
   const [qty, setQty] = useState(1)
 
-  // const dispatch = useDispatch()
-
   const { id: productId } = useParams()
 
   const navigate = useNavigate()
-
-  // const productDetails = useSelector((state) => state.productDetails)
-  // const { loading, error, product } = productDetails
-
-  // useEffect(() => {
-  //   dispatch(listProductDetails(params.id))
-  //   // console.log('this is my match id:', params.id);
-  // }, [dispatch, params.id])
-
-  const addToCartHandler = () => {
-    navigate(`/cart/${productId}?qty=${qty}`)
-  }
+  const dispatch = useDispatch()
 
   const {
     data: product,
     isLoading,
     error,
   } = useGetProductDetailsQuery(productId)
+
+  const addToCartHandler = () => {
+    dispatch(addToCart({ ...product, qty }))
+    navigate(`/cart`)
+  }
 
   return (
     <>
@@ -70,7 +62,7 @@ const ProductScreen = () => {
                   text={`${product.numReviews} reviews`}
                 />
               </ListGroup.Item>
-              <ListGroup.Item>Price: £ {product.price} </ListGroup.Item>
+              <ListGroup.Item>Price: € {product.price} </ListGroup.Item>
               <ListGroup.Item>{product.description}</ListGroup.Item>
             </ListGroup>
           </Col>
@@ -81,7 +73,7 @@ const ProductScreen = () => {
                   <Row>
                     <Col>Price:</Col>
                     <Col>
-                      <strong>£ {product.price}</strong>
+                      <strong>{product.price} €</strong>
                     </Col>
                   </Row>
                 </ListGroup.Item>
@@ -93,6 +85,9 @@ const ProductScreen = () => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+
+                {/* select qty section */}
+
                 {product.countInStock > 0 && (
                   <ListGroup.Item>
                     <Row>
@@ -101,7 +96,7 @@ const ProductScreen = () => {
                         <FormControl
                           as='select'
                           value={qty}
-                          onChange={(e) => setQty(e.target.value)}
+                          onChange={(e) => setQty(Number(e.target.value))}
                         >
                           {[...Array(product.countInStock).keys()].map((x) => (
                             <option key={x + 1} value={x + 1}>
