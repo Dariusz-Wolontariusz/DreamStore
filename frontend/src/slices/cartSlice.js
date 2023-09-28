@@ -1,15 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { updateCart } from '../utils/cartUtils'
 
 // checks local storage for existing items in a cart
-// added itemPrice: [] because of error
 
 const initialState = localStorage.getItem('cart')
   ? JSON.parse(localStorage.getItem('cart'))
   : { cartItems: [] }
-
-// helper function to round the number to specific number of decimals
-
-const addDecimals = (num) => Math.round((num * 100) / 100).toFixed(2)
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -31,38 +27,16 @@ const cartSlice = createSlice({
         // if not, add new item to the cart
         state.cartItems = [...state.cartItems, item]
       }
+      return updateCart(state)
+    },
+    removeFromCart: (state, action) => {
+      state.cartItems = state.cartItems.filter((x) => x._id !== action.payload)
 
-      // calculate the items price
-
-      state.itemsPrice = addDecimals(
-        state.cartItems.reduce(
-          (total, item) => total + item.price * item.qty,
-          0
-        )
-      )
-
-      // calculate shipping cost (if higher than 100 € then free shipping)
-
-      state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 100)
-
-      // calculate tax price (25%)
-
-      state.taxPrice = addDecimals(Number((state.itemsPrice * 0.25).toFixed(2)))
-
-      // calculate total price
-
-      state.totalPrice = (
-        Number(state.itemsPrice) +
-        Number(state.shippingPrice) +
-        Number(state.taxPrice)
-      ).toFixed(2)
-
-      // save cart to the localStorage
-      localStorage.setItem('cart', JSON.stringify(state))
+      return updateCart(state)
     },
   },
 })
 
-export const { addToCart } = cartSlice.actions
+export const { addToCart, removeFromCart } = cartSlice.actions
 
 export default cartSlice.reducer
