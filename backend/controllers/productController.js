@@ -1,5 +1,5 @@
 import Product from '../models/productModel.js'
-import asyncHandler from 'express-async-handler'
+import asyncHandler from '../middleware/asyncHandler.js'
 
 // step 1. all routes copied from server.js with cleared /api/products
 // step 2. controllers made out of routes from productRoutes

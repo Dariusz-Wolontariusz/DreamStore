@@ -8,11 +8,6 @@ import userRoutes from './routes/userRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import cookieParser from 'cookie-parser'
 
-// sugestia chat gtp
-// import { fileURLToPath } from 'url'
-// import path from 'path'
-// const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
 connectDB()
 
 const app = express()
