@@ -10,15 +10,12 @@ export const updateCart = (state) => {
   )
 
   // calculate shipping cost (if higher than 100 € then free shipping)
-
   state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 100)
 
   // calculate tax price (25%)
-
   state.taxPrice = addDecimals(Number((state.itemsPrice * 0.25).toFixed(2)))
 
   // calculate total price
-
   state.totalPrice = (
     Number(state.itemsPrice) +
     Number(state.shippingPrice) +
