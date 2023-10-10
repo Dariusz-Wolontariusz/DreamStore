@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/Dariusz-Wolontariusz/DreamStore-frontend#readme",
   "dependencies": {
-    "@railway/cli": "^3.0.22",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.6",
