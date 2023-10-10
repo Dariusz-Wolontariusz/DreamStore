@@ -1,5 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
+import path from 'path'
 dotenv.config()
 import connectDB from './config/db.js'
 import colors from 'colors'
@@ -35,14 +36,20 @@ app.use('/api/users', userRoutes)
 // custom error handler
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')))
+  const __dirname = path.resolve()
+  // set static folder
+  app.use('/uploads', express.static('/var/data/uploads'))
+  app.use(express.static(path.join(__dirname, '/frontend/build')))
 
+  // any non API route will be redirected here
   app.get('*', (req, res) =>
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
   )
 } else {
+  const __dirname = path.resolve()
+  app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
   app.get('/', (req, res) => {
-    res.send('API is running...')
+    res.send('API is running....')
   })
 }
 
