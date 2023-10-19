@@ -11,6 +11,7 @@ import {
   deleteUser,
 } from '../controllers/usersController.js'
 import { protect, admin } from '../middleware/authMiddleware.js'
+
 const router = express.Router()
 
 // previous routes made to functions in controllers

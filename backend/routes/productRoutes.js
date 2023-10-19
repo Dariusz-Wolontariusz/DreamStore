@@ -3,6 +3,7 @@ import {
   getProducts,
   getProductById,
 } from '../controllers/productController.js'
+
 const router = express.Router()
 
 // previous routes made to functions in controllers

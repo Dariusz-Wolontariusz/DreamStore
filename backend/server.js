@@ -1,11 +1,12 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import path from 'path'
 dotenv.config()
+import path from 'path'
 import connectDB from './config/db.js'
 import colors from 'colors'
 import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import cookieParser from 'cookie-parser'
 
@@ -25,13 +26,13 @@ app.use(cookieParser())
 //   res.send('API is running...')
 // })
 
-//mounting productRoutes
+//mounting all the routes
 
 app.use('/api/products', productRoutes)
 
-//mounting userRoutes
-
 app.use('/api/users', userRoutes)
+
+app.use('/api/orders', orderRoutes)
 
 // custom error handler
 

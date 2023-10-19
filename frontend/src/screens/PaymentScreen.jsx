@@ -17,6 +17,7 @@ const PaymentScreen = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
+    // console.log('Shipping Address:', shippingAddress)
     if (!shippingAddress) {
       navigate('/shipping')
     }
