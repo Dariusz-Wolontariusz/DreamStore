@@ -35,6 +35,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
       totalPrice,
     })
 
+    // save is MDB method
     const createdOrder = await order.save()
     res.status(201).json(createdOrder)
   }
@@ -45,7 +46,9 @@ const addOrderItems = asyncHandler(async (req, res) => {
 // @access Private
 
 const getMyOrders = asyncHandler(async (req, res) => {
-  res.json('get my orders')
+  // find is a MDB method in this case
+  const orders = Order.find({ user: req.user._id })
+  res.status(200).json(orders)
 })
 
 // @desc Get order by ID
@@ -53,7 +56,15 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @access Private
 
 const getOrderById = asyncHandler(async (req, res) => {
-  res.json('get order by Id')
+  // populate adds name and email to the order
+  const order = Order.findById(req.params.id).populate('name', 'name email')
+
+  if (order) {
+    res.status(200).json(order)
+  } else {
+    res.status(404)
+    throw new Error('Order not found')
+  }
 })
 
 // @desc Update order to paid
