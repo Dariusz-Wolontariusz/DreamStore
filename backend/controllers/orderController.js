@@ -25,8 +25,10 @@ const addOrderItems = asyncHandler(async (req, res) => {
         ...x,
         // set the prduct to object id
         product: x._id,
+        // don't include it in MDB
         _id: undefined,
       })),
+      user: req.user._id,
       shippingAddress,
       paymentMethod,
       itemsPrice,
@@ -56,8 +58,8 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @access Private
 
 const getOrderById = asyncHandler(async (req, res) => {
-  // populate adds name and email to the order
-  const order = Order.findById(req.params.id).populate('name', 'name email')
+  // populate adds name and email to the order collection from user collection
+  const order = Order.findById(req.params.id).populate('user', 'name email')
 
   if (order) {
     res.status(200).json(order)
