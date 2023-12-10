@@ -34,6 +34,12 @@ app.use('/api/users', userRoutes)
 
 app.use('/api/orders', orderRoutes)
 
+// paypall route
+
+app.get('/api/config/paypal', (req, res) => {
+  res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
+})
+
 // custom error handler
 
 if (process.env.NODE_ENV === 'production') {
