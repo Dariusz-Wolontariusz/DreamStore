@@ -17,7 +17,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       keepUnusedData: 5,
     }),
     payOrder: builder.mutation({
-      // arguments are in curly braces, bcecause they need to be destructored
+      // arguments are in curly braces, because they need to be destructored
 
       query: ({ orderId, details }) => ({
         url: `${ORDERS_URL}/${orderId}/pay`,
