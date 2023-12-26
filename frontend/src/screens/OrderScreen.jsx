@@ -40,16 +40,13 @@ const OrderScreen = () => {
 
   // all comes from PayPal docs
   useEffect(() => {
-    // console.log('errorPayPal:', errorPayPal)
-    // console.log('loadingPayPal:', loadingPayPal)
-    // console.log('paypal:', clientId)
     if (!errorPayPal && !loadingPayPal && paypal.clientId) {
       const loadPayPalScript = async () => {
         paypalDispatch({
           type: 'resetOptions',
           value: {
             'client-id': paypal.clientId,
-            currency: 'USD',
+            currency: 'EUR',
           },
         })
         paypalDispatch({ type: 'setLoadingStatus', value: 'pending' })
@@ -78,13 +75,14 @@ const OrderScreen = () => {
     })
   }
 
-  const onApproveTest = async () => {
-    // bc it's a test, there's no data from PayPal, that's why datails comes with payer empty object
-    await payOrder({ orderId, details: { payer: {} } })
-    // after its paid refetch will reload data and change message 'not paid'
-    refetch()
-    toast.success('Payment successful')
-  }
+  // use for a test button, remove while refactoring
+  // const onApproveTest = async () => {
+  //   // bc it's a test, there's no data from PayPal, that's why datails comes with payer empty object
+  //   await payOrder({ orderId, details: { payer: {} } })
+  //   // after its paid refetch will reload data and change message 'not paid'
+  //   refetch()
+  //   toast.success('Payment successful')
+  // }
 
   const onError = (err) => {
     toast.error(err.message)
@@ -96,9 +94,7 @@ const OrderScreen = () => {
         .create({
           purchase_units: [
             {
-              amount: {
-                value: order.totalPrice,
-              },
+              amount: { value: order.totalPrice },
             },
           ],
         })
@@ -211,18 +207,19 @@ const OrderScreen = () => {
             </ListGroup>
             {!order.isPaid && (
               <ListGroup.Item>
-                {isLoading && <Loader />}
+                {loadingPay && <Loader />}
 
                 {isPending ? (
                   <Loader />
                 ) : (
                   <div>
-                    <Button
+                    {/* Button used for testing the changes after payment */}
+                    {/* <Button
                       onClick={onApproveTest}
                       style={{ marginBottom: '10px', marginTop: '10px' }}
                     >
                       Test pay order
-                    </Button>
+                    </Button> */}
                     <div>
                       <PayPalButtons
                         createOrder={createOrder}

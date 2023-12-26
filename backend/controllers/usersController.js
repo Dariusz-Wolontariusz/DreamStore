@@ -109,16 +109,17 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @access Private
 
 const updateUserProfile = asyncHandler(async (req, res) => {
+  // console.log('Caly req do serwera:', req.body)
   // const { name, email, password } = req.user
 
   const user = await User.findById(req.user._id)
 
   if (user) {
     {
-      user.name = req.user.name || user.name
-      user.email = req.user.email || user.email
+      user.name = req.body.name || user.name
+      user.email = req.body.email || user.email
 
-      if (req.user.password) {
+      if (req.body.password) {
         user.password = req.body.password
       }
     }

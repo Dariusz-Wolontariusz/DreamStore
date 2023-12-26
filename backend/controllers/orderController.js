@@ -51,7 +51,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
 const getMyOrders = asyncHandler(async (req, res) => {
   // find is a MDB method in this case
-  const orders = Order.find({ user: req.user._id })
+  const orders = await Order.find({ user: req.user._id })
   res.status(200).json(orders)
 })
 
@@ -79,7 +79,7 @@ const getOrderById = asyncHandler(async (req, res) => {
 // @access Private
 
 const updateOrderToPaid = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params._id)
+  const order = await Order.findById(req.params.id)
 
   if (order) {
     order.isPaid = true
@@ -93,7 +93,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 
     const updateOrder = await order.save()
 
-    res.statur(200).json(updateOrder)
+    res.status(200).json(updateOrder)
   } else {
     res.status(404)
     throw new Error('Order not found')
