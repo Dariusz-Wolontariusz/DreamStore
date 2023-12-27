@@ -24,10 +24,12 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: details,
       }),
-      //// way to log payers details
-      // onQueryStarted: (arg, { dispatch, queryFulfilled, queryRejected }) => {
-      //   console.log('Details sent to payOrder endpoint:', arg.details)
-      // },
+    }),
+    deliverOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `${ORDERS_URL}/${orderId}/deliver`,
+        method: 'PUT',
+      }),
     }),
     getPayPalClientId: builder.query({
       query: () => ({
@@ -57,4 +59,5 @@ export const {
   useGetPayPalClientIdQuery,
   useGetMyOrdersQuery,
   useGetOrdersQuery,
+  useDeliverOrderMutation,
 } = orderApiSlice
