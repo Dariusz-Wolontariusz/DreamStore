@@ -8,6 +8,8 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         url: PRODUCTS_URL,
       }),
       keepUnusedDataFor: 5,
+      // withouth a tag refresh the page is neccessary
+      providesTags: ['Products'],
     }),
     getProductDetails: builder.query({
       query: (productId) => ({
@@ -21,8 +23,17 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         url: PRODUCTS_URL,
         method: 'POST',
       }),
-      // this will prevent it to be cached
+      // this will prevent it to be cached, it will refetch fresh data from the server
       invalidatesTags: ['Product'],
+    }),
+    updateProduct: builder.mutation({
+      query: (data) => ({
+        // data contains productId sent from the form in edit screen
+        url: `${PRODUCTS_URL}/${data.productId}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: ['Products'],
     }),
   }),
 })
@@ -31,4 +42,5 @@ export const {
   useGetProductsQuery,
   useGetProductDetailsQuery,
   useCreateProductMutation,
+  useUpdateProductMutation,
 } = productsApiSlice

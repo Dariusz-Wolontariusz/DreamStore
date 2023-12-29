@@ -1,7 +1,7 @@
 import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
-import { FaTimes, FaEdit, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaTrash } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import {
   useGetProductsQuery,
@@ -68,11 +68,12 @@ const ProductListScreen = () => {
                   <tr key={product._id}>
                     <td>{product._id}</td>
                     <td>{product.name}</td>
-                    <td>{product.totalPrice}</td>
+                    <td>{product.price} €</td>
+
                     <td>{product.category}</td>
                     <td>{product.brand}</td>
                     <td>
-                      <LinkContainer to={`/admin/product/&{product._id}/edit`}>
+                      <LinkContainer to={`/admin/product/${product._id}/edit`}>
                         <Button className='btn-sm mx-2' variant='dark'>
                           <FaEdit />
                         </Button>
