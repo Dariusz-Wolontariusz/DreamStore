@@ -8,7 +8,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         url: PRODUCTS_URL,
       }),
       keepUnusedDataFor: 5,
-      // withouth a tag refresh the page is neccessary
+      // without a tag refresh the page is necessary
       providesTags: ['Products'],
     }),
     getProductDetails: builder.query({

@@ -97,7 +97,7 @@ const ProductListScreen = () => {
                         variant='danger'
                         className='btn-sm'
                       >
-                        <FaTrash />
+                        <FaTrash style={{ color: 'white' }} />
                       </Button>
                     </td>
                   </tr>
