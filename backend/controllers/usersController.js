@@ -144,6 +144,14 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
 const getUsers = asyncHandler(async (req, res) => {
   res.send('get users')
+
+  const users = await User.find({})
+
+  if (users) {
+    res.status(200).json(users)
+  } else {
+    res.status(404).json('Not found.')
+  }
 })
 
 // @desc Get user by ID
