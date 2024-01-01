@@ -36,14 +36,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'GET',
       }),
       keepUnusedDataFor: 5,
-      // without a tag refresh the page might be necessary
-      providesTags: ['Users'],
+      providesTags: ['Users'], // without a tag refresh the page might be necessary
     }),
     getUser: builder.query({
       query: (userId) => ({
         url: `${USERS_URL}/${userId}`,
         method: 'GET',
       }),
+      keepUnusedDataFor: 5,
+      providesTags: ['User'],
     }),
     deleteUser: builder.mutation({
       query: (userId) => ({
@@ -57,6 +58,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
+      providesTags: ['Users'],
     }),
   }),
 })

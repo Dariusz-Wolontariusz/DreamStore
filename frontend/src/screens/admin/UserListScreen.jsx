@@ -3,15 +3,28 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
 import { FaEdit, FaTimes, FaTrash, FaCheck } from 'react-icons/fa'
 import { toast } from 'react-toastify'
-import { useGetUsersQuery } from '../../slices/usersApiSlice'
+import {
+  useGetUsersQuery,
+  useDeleteUserMutation,
+} from '../../slices/usersApiSlice'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
 
 const UserListScreen = () => {
-  const { data: users, isLoading, error } = useGetUsersQuery()
+  const { data: users, isLoading, error, refetch } = useGetUsersQuery()
 
-  const deleteHandler = async (id) => {
-    console.log('delete user', id)
+  const [deleteUser, { isLoading: loadingDelete }] = useDeleteUserMutation()
+
+  const deleteHandler = async (id, name) => {
+    if (window.confirm(`Are you sure you want to delete ${name}'s account?`)) {
+      try {
+        await deleteUser(id)
+        refetch()
+        toast.success('User deleted successfully.')
+      } catch (err) {
+        toast.error(err?.data?.message || err.error)
+      }
+    }
   }
 
   return (
@@ -21,6 +34,7 @@ const UserListScreen = () => {
           <h1>Users</h1>
         </Col>
       </Row>
+      {loadingDelete && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (
@@ -53,7 +67,7 @@ const UserListScreen = () => {
                     )}
                   </td>
                   <td>
-                    <LinkContainer to={`/user/${user._id}/edit`}>
+                    <LinkContainer to={`/admin/user/${user._id}/edit`}>
                       <Button className='btn-sm mx-2' variant='dark'>
                         <FaEdit />
                       </Button>
@@ -61,7 +75,7 @@ const UserListScreen = () => {
                     <Button
                       className='btn-sm'
                       variant='danger'
-                      onClick={() => deleteHandler(user._id)}
+                      onClick={() => deleteHandler(user._id, user.name)}
                     >
                       <FaTrash style={{ color: 'white' }} />
                     </Button>
