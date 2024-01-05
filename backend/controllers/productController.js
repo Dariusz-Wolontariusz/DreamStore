@@ -98,36 +98,47 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @access Private
 
 const createProductReview = asyncHandler(async (req, res) => {
+  // console.log('Reached createProductReview controller')
+
   const { rating, comment } = req.body
+
+  // console.log('Request Body:', req.user)
 
   const product = await Product.findById(req.params.id)
 
+  console.log('req.user._id:', req.user._id)
+
   if (product) {
-    const alreadyReviewed = await product.reviews.find(
-      (review) => product.user.toString() === req.body._id.toString()
+    const alreadyReviewed = product.reviews.find(
+      (r) => r.user.toString() === req.user._id.toString()
     )
+
+    console.log('Already oink Reviewed:', alreadyReviewed)
+
     if (alreadyReviewed) {
       res.status(400)
-      throw new Error('Product already has a review.')
+      throw new Error('Product already reviewed.')
     }
 
     const review = {
-      user: req.body._id,
-      name: req.body.name,
-      rating: Number(),
+      user: req.user._id,
+      name: req.user.name,
+      rating: Number(rating),
       comment,
     }
+
+    console.log('New Review:', review)
 
     product.reviews.push(review)
 
     product.numReviews = product.reviews.length
 
     product.rating =
-      product.reviews.reduce((acc, review) => acc + review.rating) /
+      product.reviews.reduce((acc, review) => acc + review.rating, 0) /
       product.reviews.length
 
     await product.save()
-    res.status(200).json('Review added.')
+    res.status(201).json('Review added.')
   } else {
     res.status(404)
     throw new Error('Resource not found.')
