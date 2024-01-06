@@ -4,7 +4,7 @@
     { "src": "backed/server.js", "use": "@vercel/node" },
     {
       "src": "frontend/package.json",
-      "use": "@vercel/react"
+      "use": "@vercel/node"
     }
   ],
   "routes": [
