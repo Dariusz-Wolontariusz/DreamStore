@@ -48,12 +48,15 @@ app.get('/api/config/paypal', (req, res) => {
 // app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 // config for deplopyment
-if (process.env.NODE_ENV === 'production') {
+// on Vercel the frontend is served by the platform, so skip static serving
+if (process.env.VERCEL) {
+  // nothing to serve here
+} else if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve()
   app.use('/uploads', express.static('/var/data/uploads'))
   app.use(express.static(path.join(__dirname, '/frontend/build')))
 
-  app.get('*', (req, res) =>
+  app.get('/{*splat}', (req, res) =>
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
   )
 } else {
@@ -69,11 +72,15 @@ if (process.env.NODE_ENV === 'production') {
 app.use(notFound)
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 5000
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000
 
-app.listen(
-  PORT,
-  console.log(
-    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
+  app.listen(
+    PORT,
+    console.log(
+      `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
+    )
   )
-)
+}
+
+export default app
